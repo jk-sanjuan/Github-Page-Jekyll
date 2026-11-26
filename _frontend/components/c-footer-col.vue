@@ -1,6 +1,6 @@
 <template>
 
-  <div class="group footer-col flex-shrink-0">
+  <div class="group footer-col flex-shrink-0 text-black">
     <!--- Johnella Kyle San Juan -->
     <h3 class="footer__title group-hover:hover-shade">
       <span class="footer__title--shade">
