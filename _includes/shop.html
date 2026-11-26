@@ -7,7 +7,7 @@
   <img src="/assets/images/jk/jk-m.png"
        class="h-[170px] [position:relative] -top-[16px] hover:bg-white/20"
        alt="JK-M">
-  <span class="ml-4 mt-[15px] text-[#ffd681]">JK’s Shop</span>
+  <span class="brand-title ml-4 mt-[15px] text-[#ffd681]">JK’s Shop</span>
 </div>
 
 <div class="bg-red-500 w-full m-0 flex [flex-direction:column] md:[flex-direction:row]">
@@ -20,3 +20,765 @@
        style="background: url('/assets/images/jk/jk-brand-c-gold.png') white no-repeat; background-size: 100%">
   </div>
 </div>
+<!-- =========================================
+     HERO SECTION
+========================================= -->
+
+<header class="hero">
+
+    <span class="hero-label">
+        JK SAN JUAN · BRAND COLLECTION
+    </span>
+
+  <h1>
+    Discover Your
+    <span class="gradient-text">Style.</span>
+  </h1>
+
+  <p>
+    Fashion is more than what you wear.
+    It's how you express yourself.
+    Discover your style with JK's Shop.
+  </p>
+
+  <a href="#collection" class="hero-button">
+    Explore Collection
+  </a>
+
+</header>
+
+
+<!-- =========================================
+     PRODUCT COLLECTION
+========================================= -->
+
+<main class="shop-container" id="collection">
+
+    <span class="section-label">
+        THE COLLECTION
+    </span>
+
+
+  <div class="products-heading">
+
+    <h2>Explore Our Products</h2>
+
+    <select id="sort" aria-label="Sort products">
+
+      <option value="default">Featured Products</option>
+
+      <option value="low">Price: Low to High</option>
+
+      <option value="high">Price: High to Low</option>
+
+    </select>
+
+  </div>
+
+
+  <!-- SEARCH -->
+
+  <div class="search-box">
+
+    <input
+        type="search"
+        id="search"
+        placeholder="Search clothing, footwear and accessories..."
+        aria-label="Search products"
+    >
+
+  </div>
+
+
+  <!-- CATEGORIES -->
+
+  <div class="categories" id="categories">
+
+    <button class="category-btn active" data-category="All">
+      All Products
+    </button>
+
+    <button class="category-btn" data-category="Men">
+      Men's Clothing
+    </button>
+
+    <button class="category-btn" data-category="Women">
+      Women's Clothing
+    </button>
+
+    <button class="category-btn" data-category="Footwear">
+      Footwear
+    </button>
+
+    <button class="category-btn" data-category="Accessories">
+      Accessories
+    </button>
+
+  </div>
+
+
+  <!-- PRODUCT GRID -->
+
+  <div class="product-grid" id="product-grid"></div>
+
+
+  <!-- EMPTY STATE -->
+
+  <div class="empty-message" id="empty">
+
+    No products found. Try another search.
+
+  </div>
+
+</main>
+
+
+<!-- =========================================
+     CART OVERLAY
+========================================= -->
+
+<div
+    class="cart-overlay"
+    id="overlay"
+    onclick="toggleCart(false)"
+></div>
+
+
+<!-- =========================================
+     CART DRAWER
+========================================= -->
+
+<aside
+    class="cart-panel"
+    id="cart"
+    aria-label="Shopping cart"
+    aria-hidden="true"
+>
+
+  <div class="cart-header">
+
+    <h2>Your Shopping Bag</h2>
+
+    <button
+        class="close-cart"
+        onclick="toggleCart(false)"
+        aria-label="Close shopping cart"
+    >
+      ×
+    </button>
+
+  </div>
+
+
+  <div id="cart-items"></div>
+
+
+  <div class="cart-total">
+
+    <div class="total-row">
+
+      <span>Subtotal</span>
+
+      <span id="cart-total">₱0.00</span>
+
+    </div>
+
+    <button
+        class="checkout-button"
+        onclick="checkout()"
+    >
+      Proceed to Checkout
+    </button>
+
+  </div>
+
+</aside>
+
+
+<!-- =========================================
+     FOOTER
+========================================= -->
+
+<footer>
+
+  <strong>JK's Shop</strong>
+
+  <p>
+    Fashion · Style · Everyday Essentials
+  </p>
+
+  <br>
+
+  © 2026 JK San Juan. All rights reserved.
+
+</footer>
+
+
+<!-- =========================================
+     JAVASCRIPT
+========================================= -->
+
+<script>
+
+
+    /* =========================================
+       01. PRODUCT DATABASE
+    ========================================= */
+
+    const products = [
+
+        {
+            id: 1,
+            name: "Classic Cotton T-Shirt",
+            category: "Men",
+            price: 450,
+            oldPrice: 599,
+            stock: 20,
+            badge: "BEST SELLER",
+            description: "Comfortable cotton essential for everyday wear.",
+            image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600"
+        },
+
+        {
+            id: 2,
+            name: "Women's Casual Top",
+            category: "Women",
+            price: 550,
+            oldPrice: 750,
+            stock: 15,
+            badge: "SALE",
+            description: "Elegant and versatile casual fashion.",
+            image: "https://images.unsplash.com/photo-1551163943-3f6a855d1153?w=600"
+        },
+
+        {
+            id: 3,
+            name: "Premium Denim Jacket",
+            category: "Men",
+            price: 1299,
+            oldPrice: 1599,
+            stock: 8,
+            badge: "POPULAR",
+            description: "Timeless denim for effortless styling.",
+            image: "https://images.unsplash.com/photo-1543076447-215ad9ba6923?w=600"
+        },
+
+        {
+            id: 4,
+            name: "Women's Summer Dress",
+            category: "Women",
+            price: 899,
+            oldPrice: 1099,
+            stock: 12,
+            badge: "NEW",
+            description: "Lightweight and elegant summer fashion.",
+            image: "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=600"
+        },
+
+        {
+            id: 5,
+            name: "Classic Sneakers",
+            category: "Footwear",
+            price: 1499,
+            oldPrice: 1799,
+            stock: 10,
+            badge: "POPULAR",
+            description: "Versatile footwear for everyday outfits.",
+            image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600"
+        },
+
+        {
+            id: 6,
+            name: "Leather Handbag",
+            category: "Accessories",
+            price: 1199,
+            oldPrice: 1499,
+            stock: 7,
+            badge: "SALE",
+            description: "Stylish handbag for every occasion.",
+            image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=600"
+        },
+
+        {
+            id: 7,
+            name: "Fashion Hoodie",
+            category: "Men",
+            price: 999,
+            oldPrice: 1299,
+            stock: 18,
+            badge: "NEW",
+            description: "Relaxed fit hoodie for casual styling.",
+            image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=600"
+        },
+
+        {
+            id: 8,
+            name: "Fashion Sunglasses",
+            category: "Accessories",
+            price: 399,
+            oldPrice: 599,
+            stock: 25,
+            badge: "TRENDING",
+            description: "Modern eyewear to complete your look.",
+            image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=600"
+        }
+
+    ];
+
+
+    /* =========================================
+       02. APPLICATION STATE
+    ========================================= */
+
+    let selectedCategory = "All";
+
+    let cart = [];
+
+
+    /* =========================================
+       03. CURRENCY FORMAT
+    ========================================= */
+
+    function formatPrice(price) {
+
+        return new Intl.NumberFormat("en-PH", {
+
+            style: "currency",
+            currency: "PHP"
+
+        }).format(price);
+
+    }
+
+
+    /* =========================================
+       04. RENDER PRODUCTS
+    ========================================= */
+
+    function renderProducts() {
+
+        const grid = document.getElementById("product-grid");
+
+        const search = document
+            .getElementById("search")
+            .value.toLowerCase();
+
+        const sort = document
+            .getElementById("sort")
+            .value;
+
+
+        let filtered = products.filter(product => {
+
+            const matchesCategory =
+                selectedCategory === "All" ||
+                product.category === selectedCategory;
+
+            const matchesSearch =
+                product.name.toLowerCase().includes(search) ||
+                product.description.toLowerCase().includes(search);
+
+            return matchesCategory && matchesSearch;
+
+        });
+
+
+        if (sort === "low") {
+
+            filtered.sort((a, b) => a.price - b.price);
+
+        }
+
+        if (sort === "high") {
+
+            filtered.sort((a, b) => b.price - a.price);
+
+        }
+
+
+        grid.innerHTML = filtered.map(product => `
+
+        <article class="product-card">
+
+            <div class="product-inner">
+
+                <div class="product-image">
+
+                    <img
+                        src="${product.image}"
+                        alt="${product.name}"
+                        loading="lazy"
+                    >
+
+                    <span class="badge">
+                        ${product.badge}
+                    </span>
+
+                </div>
+
+
+                <div class="product-info">
+
+                    <span class="product-category">
+                        ${product.category}
+                    </span>
+
+                    <h3>${product.name}</h3>
+
+                    <p class="product-description">
+                        ${product.description}
+                    </p>
+
+
+                    <div class="price-row">
+
+                        <span class="price">
+                            ${formatPrice(product.price)}
+                        </span>
+
+                        <span class="old-price">
+                            ${formatPrice(product.oldPrice)}
+                        </span>
+
+                    </div>
+
+
+                    <div class="stock">
+
+                        ● ${product.stock} items available
+
+                    </div>
+
+
+                    <button
+                        class="add-button"
+                        onclick="addToCart(${product.id})"
+                        ${product.stock === 0 ? "disabled" : ""}
+                    >
+
+                        Add to Shopping Bag +
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </article>
+
+    `).join("");
+
+
+        document.getElementById("empty").style.display =
+            filtered.length ? "none" : "block";
+
+    }
+
+
+    /* =========================================
+       05. CATEGORY FILTER
+    ========================================= */
+
+    document.querySelectorAll(".category-btn").forEach(button => {
+
+        button.addEventListener("click", () => {
+
+            document.querySelectorAll(".category-btn")
+                .forEach(item => item.classList.remove("active"));
+
+            button.classList.add("active");
+
+            selectedCategory = button.dataset.category;
+
+            renderProducts();
+
+        });
+
+    });
+
+
+    /* =========================================
+       06. SEARCH AND SORT
+    ========================================= */
+
+    document.getElementById("search")
+        .addEventListener("input", renderProducts);
+
+    document.getElementById("sort")
+        .addEventListener("change", renderProducts);
+
+
+    /* =========================================
+       07. ADD TO CART
+    ========================================= */
+
+    function addToCart(id) {
+
+        const product = products.find(item => item.id === id);
+
+        const existing = cart.find(item => item.id === id);
+
+        const quantity = existing ? existing.quantity : 0;
+
+
+        if (quantity >= product.stock) {
+
+            alert("Maximum available stock reached.");
+
+            return;
+
+        }
+
+
+        if (existing) {
+
+            existing.quantity++;
+
+        } else {
+
+            cart.push({
+
+                ...product,
+                quantity: 1
+
+            });
+
+        }
+
+
+        renderCart();
+
+    }
+
+
+    /* =========================================
+       08. UPDATE QUANTITY
+    ========================================= */
+
+    function updateQuantity(id, change) {
+
+        const item = cart.find(product => product.id === id);
+
+        if (!item) return;
+
+
+        const product = products.find(product => product.id === id);
+
+        const nextQuantity = item.quantity + change;
+
+
+        if (nextQuantity <= 0) {
+
+            removeFromCart(id);
+
+            return;
+
+        }
+
+
+        if (nextQuantity > product.stock) {
+
+            alert("Maximum available stock reached.");
+
+            return;
+
+        }
+
+
+        item.quantity = nextQuantity;
+
+        renderCart();
+
+    }
+
+
+    /* =========================================
+       09. REMOVE CART ITEM
+    ========================================= */
+
+    function removeFromCart(id) {
+
+        cart = cart.filter(item => item.id !== id);
+
+        renderCart();
+
+    }
+
+
+    /* =========================================
+       10. RENDER CART
+    ========================================= */
+
+    function renderCart() {
+
+        const container = document.getElementById("cart-items");
+
+
+        container.innerHTML = cart.length
+
+            ? cart.map(item => `
+
+            <div class="cart-item">
+
+                <img
+                    src="${item.image}"
+                    alt="${item.name}"
+                >
+
+                <div class="cart-item-info">
+
+                    <strong>${item.name}</strong>
+
+                    <p>${formatPrice(item.price)}</p>
+
+                    <div class="quantity">
+
+                        <button
+                            onclick="updateQuantity(${item.id}, -1)"
+                            aria-label="Decrease quantity"
+                        >
+                            −
+                        </button>
+
+                        <span>${item.quantity}</span>
+
+                        <button
+                            onclick="updateQuantity(${item.id}, 1)"
+                            aria-label="Increase quantity"
+                        >
+                            +
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <button
+                    class="remove-item"
+                    onclick="removeFromCart(${item.id})"
+                    aria-label="Remove ${item.name}"
+                >
+                    ×
+                </button>
+
+            </div>
+
+        `).join("")
+
+            : '<p style="padding:30px 0;color:#aaa;">Your shopping bag is empty.</p>';
+
+
+        const count = cart.reduce(
+
+            (sum, item) => sum + item.quantity,
+
+            0
+
+        );
+
+
+        const total = cart.reduce(
+
+            (sum, item) => sum + item.price * item.quantity,
+
+            0
+
+        );
+
+
+        document.getElementById("cart-count").textContent = count;
+
+        document.getElementById("cart-total").textContent =
+            formatPrice(total);
+
+    }
+
+
+    /* =========================================
+       11. CART DRAWER
+    ========================================= */
+
+    function toggleCart(show) {
+
+        document.getElementById("cart")
+            .classList.toggle("show", show);
+
+        document.getElementById("overlay")
+            .classList.toggle("show", show);
+
+        document.getElementById("cart")
+            .setAttribute("aria-hidden", String(!show));
+
+    }
+
+
+    /* =========================================
+       12. CHECKOUT
+    ========================================= */
+
+    function checkout() {
+
+        if (!cart.length) {
+
+            alert("Your shopping bag is empty.");
+
+            return;
+
+        }
+
+
+        const total = cart.reduce(
+
+            (sum, item) => sum + item.price * item.quantity,
+
+            0
+
+        );
+
+
+        const count = cart.reduce(
+
+            (sum, item) => sum + item.quantity,
+
+            0
+
+        );
+
+
+        alert(
+
+            "JK's Shop — Order Summary\n\n" +
+
+            "Items: " + count +
+
+            "\nSubtotal: " + formatPrice(total) +
+
+            "\n\nCheckout is currently in demonstration mode."
+
+        );
+
+    }
+
+
+    /* =========================================
+       13. INITIALIZE
+    ========================================= */
+
+    renderProducts();
+
+    renderCart();
+
+
+    /* CLOSE CART WITH ESCAPE */
+
+    document.addEventListener("keydown", event => {
+
+        if (event.key === "Escape") {
+
+            toggleCart(false);
+
+        }
+
+    });
+
+</script>
