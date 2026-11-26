@@ -16,7 +16,7 @@
     "sass": "^1.35",
     "unplugin-icons": "^0.14",
     "unplugin-vue-components": "^0.21",
-    "vite": "^5.2.13",
+    "vite": "^8.0.0",
     "vite-plugin-ruby": "^5.0.0",
     "vite-plugin-vue-devtools": "^7.2.1",
     "vite-plugin-windicss": "^1.2.0",
